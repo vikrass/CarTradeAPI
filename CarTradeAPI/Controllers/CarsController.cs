@@ -37,10 +37,9 @@ namespace CarTradeAPI.Controllers
             var primaryKey = _configuration.GetSection("cartradecosmosdbpk").Value;
             var cosmosdbendpointuri = _configuration.GetSection("cartradecosmosdburi").Value;
 
-            //var primaryKey = "ZepIAMmSCywDve4l18S02xSqgr0y8ik7MmV6IKdBU5B3Azo5PtsCB0QoM1FfC6JqaTsgc2k9oLUDACDbICrZ9g==";
-            //var cosmosdbendpointuri = "https://cartradedatadb.documents.azure.com:443/";
+            var cosmosdbConnectionString = _configuration.GetSection("ConnectionStrings").GetSection("cosmosdbcontext").Value;
 
-            this.cosmosClient = new CosmosClient(cosmosdbendpointuri, primaryKey, new CosmosClientOptions());
+            this.cosmosClient = new CosmosClient(cosmosdbConnectionString, new CosmosClientOptions());
             this.database = cosmosClient.GetDatabase("carsdb");
             this.container = database.GetContainer("carsdata");
 
