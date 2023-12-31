@@ -34,11 +34,11 @@ namespace CarTradeAPI.Controllers
         [HttpGet(Name = "GetCars")]
         public async Task<IEnumerable<Car>> Get()
         {
-            //var primaryKey =  _configuration.GetSection("cartradecosmosdbpk").Value;
-            //var cosmosdbendpointuri = _configuration.GetSection("cartradecosmosdburi").Value;
+            var primaryKey = _configuration.GetSection("cartradecosmosdbpk").Value;
+            var cosmosdbendpointuri = _configuration.GetSection("cartradecosmosdburi").Value;
 
-            var primaryKey = "ZepIAMmSCywDve4l18S02xSqgr0y8ik7MmV6IKdBU5B3Azo5PtsCB0QoM1FfC6JqaTsgc2k9oLUDACDbICrZ9g==";
-            var cosmosdbendpointuri = "https://cartradedatadb.documents.azure.com:443/";
+            //var primaryKey = "ZepIAMmSCywDve4l18S02xSqgr0y8ik7MmV6IKdBU5B3Azo5PtsCB0QoM1FfC6JqaTsgc2k9oLUDACDbICrZ9g==";
+            //var cosmosdbendpointuri = "https://cartradedatadb.documents.azure.com:443/";
 
             this.cosmosClient = new CosmosClient(cosmosdbendpointuri, primaryKey, new CosmosClientOptions());
             this.database = cosmosClient.GetDatabase("carsdb");
