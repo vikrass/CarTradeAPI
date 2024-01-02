@@ -34,9 +34,6 @@ namespace CarTradeAPI.Controllers
         [HttpGet(Name = "GetCars")]
         public async Task<IEnumerable<Car>> Get()
         {
-            var primaryKey = _configuration.GetSection("cartradecosmosdbpk").Value;
-            var cosmosdbendpointuri = _configuration.GetSection("cartradecosmosdburi").Value;
-
             var cosmosdbConnectionString = _configuration.GetSection("ConnectionStrings").GetSection("cosmosdbcontext").Value;
 
             this.cosmosClient = new CosmosClient(cosmosdbConnectionString, new CosmosClientOptions());
@@ -60,13 +57,6 @@ namespace CarTradeAPI.Controllers
             }
 
             return cars;
-
-            //return new List<Car>() 
-            //{
-            //    new Car("Maruti Suzuki", "Swift", "VXI", 1200, "Petrol", 2012, 2013, 410000),
-            //    new Car("Honda", "City", "VX CVT", 1497, "Petrol", 2014, 2014, 625000),
-            //    new Car("Hyundai", "Creta", "SX 1.4 Turbo 7 DCT", 1353, "Petrol", 2020, 2020, 1625000),
-            //};
         }
     }
 }
