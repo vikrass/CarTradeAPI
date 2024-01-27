@@ -9,14 +9,10 @@ namespace CarTradeAPI
             var cosmosdbConnectionString = configuration.GetSection("ConnectionStrings").GetSection("cosmosdbcontext").Value;
 
             var cosmosClient = new CosmosClient(cosmosdbConnectionString, new CosmosClientOptions());
-            var carsDbDatabase = cosmosClient.GetDatabase("carsdb");
+            Database carsDbDatabase = cosmosClient.GetDatabase("carsdb");
             this.CarsContainer = carsDbDatabase.GetContainer("carsdata");
-
-            var manufacturersDbDatabase = cosmosClient.GetDatabase("manufacturers");
-            this.CarBrandsContainer = manufacturersDbDatabase.GetContainer("manufacturers");
-
-            var carNamesDatabase = cosmosClient.GetDatabase("carNames");
-            this.CarNamesContainer = carNamesDatabase.GetContainer("carNames");
+            this.CarBrandsContainer = carsDbDatabase.GetContainer("manufacturers");
+            this.CarNamesContainer = carsDbDatabase.GetContainer("carNames");
         }
 
         public Container CarsContainer { get; private set; }

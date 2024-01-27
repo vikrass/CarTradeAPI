@@ -1,18 +1,19 @@
 ﻿using Microsoft.Azure.Cosmos;
-using System.Collections;
 
 namespace CarTradeAPI.Repository
 {
     public class CarsRepository
     {
-        private Container carContainer;
-        private Container manufacturerContainer;
+        private readonly Container carContainer;
+        private readonly Container manufacturerContainer;
+        private readonly Container carModelsContainer;
 
         public CarsRepository(IConfiguration configuration)
         {
             var carscontext = new CarsDBContext(configuration);
             carContainer = carscontext.CarsContainer;
             manufacturerContainer = carscontext.CarBrandsContainer;
+            carModelsContainer = carscontext.CarNamesContainer;
         }
 
         public async Task<IEnumerable<Car>> GetCars()
@@ -52,6 +53,25 @@ namespace CarTradeAPI.Repository
                 }
             }
             return manufacturers;
+        }
+
+        public async Task<IEnumerable<CarModel>> GetCarModels(string carBrand)
+        {
+            var sqlQueryText = $"SELECT c.carName FROM c WHERE c.manufacturerName = \"{carBrand}\"";
+
+            QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
+            FeedIterator<CarModel> queryResultSetIterator = this.carModelsContainer.GetItemQueryIterator<CarModel>(queryDefinition);
+            List<CarModel> carModels = new List<CarModel>();
+
+            while (queryResultSetIterator.HasMoreResults)
+            {
+                FeedResponse<CarModel> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                foreach (CarModel carModel in currentResultSet)
+                {
+                    carModels.Add(carModel);
+                }
+            }
+            return carModels;
         }
     }
 }
