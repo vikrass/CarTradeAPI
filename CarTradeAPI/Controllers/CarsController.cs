@@ -35,7 +35,7 @@ namespace CarTradeAPI.Controllers
         }
 
         [HttpGet(Name = "GetCars")]
-        public async Task<IEnumerable<Car>> Get()
+        public async Task<IEnumerable<Car>> GetCars()
         {
             return await _carsRepository.GetCars();
         }
